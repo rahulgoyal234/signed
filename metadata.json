@@ -1,0 +1,6 @@
+{
+  "name": "Signed & Sealed",
+  "description": "Ask the law, anonymously. Post a legal question with no name attached. Anyone can answer it.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

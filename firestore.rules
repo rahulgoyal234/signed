@@ -1,0 +1,39 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidMessage(data) {
+      return data.keys().hasAll(['room', 'text', 'alias', 'uid', 'createdAt', 'isQ']) &&
+        data.room is string && data.room.size() <= 100 &&
+        data.alias is string && data.alias.size() <= 100 &&
+        data.uid is string && data.uid.size() <= 128 &&
+        data.createdAt is number &&
+        data.isQ is bool &&
+        data.text is string &&
+        (data.isQ ? (data.text.size() >= 1 && data.text.size() <= 600) : (data.text.size() >= 1 && data.text.size() <= 800));
+    }
+
+    match /messages/{messageId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() &&
+        isValidMessage(request.resource.data) &&
+        request.resource.data.uid == request.auth.uid;
+      allow update, delete: if false;
+    }
+
+    match /presence/{userId} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && request.auth.uid == userId;
+    }
+  }
+}

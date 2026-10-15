@@ -1,0 +1,90 @@
+{
+  "entities": {
+    "Message": {
+      "title": "Message",
+      "description": "A legal question or reply posted to the wall anonymously",
+      "type": "object",
+      "properties": {
+        "room": {
+          "type": "string",
+          "description": "Category or topic room",
+          "maxLength": 100
+        },
+        "text": {
+          "type": "string",
+          "description": "Content of the legal question or reply slip",
+          "minLength": 1,
+          "maxLength": 800
+        },
+        "alias": {
+          "type": "string",
+          "description": "Anonymous alias assigned to the user",
+          "maxLength": 100
+        },
+        "uid": {
+          "type": "string",
+          "description": "Anonymous session or user identifier",
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "number",
+          "description": "Unix timestamp in milliseconds"
+        },
+        "isQ": {
+          "type": "boolean",
+          "description": "True if this message is a top-level question"
+        },
+        "qid": {
+          "type": "string",
+          "description": "Parent question ID if this is an answer, null otherwise"
+        },
+        "replyTo": {
+          "type": "object",
+          "description": "Quoted message snippet if replying to a specific answer"
+        }
+      },
+      "required": ["room", "text", "alias", "uid", "createdAt", "isQ"]
+    },
+    "Presence": {
+      "title": "Presence",
+      "description": "Active user heartbeat record for live room presence",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "User identifier",
+          "maxLength": 128
+        },
+        "alias": {
+          "type": "string",
+          "description": "Anonymous alias",
+          "maxLength": 100
+        },
+        "room": {
+          "type": "string",
+          "description": "Current room name",
+          "maxLength": 100
+        },
+        "updatedAt": {
+          "type": "number",
+          "description": "Heartbeat timestamp in milliseconds"
+        }
+      },
+      "required": ["uid", "alias", "room", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/messages/{messageId}": {
+      "schema": {
+        "$ref": "#/entities/Message"
+      },
+      "description": "All anonymous questions and replies"
+    },
+    "/presence/{userId}": {
+      "schema": {
+        "$ref": "#/entities/Presence"
+      },
+      "description": "Active user heartbeats updated every 20 seconds"
+    }
+  }
+}
