@@ -46,14 +46,14 @@ The application includes dual-mode data persistence:
 
 ---
 
-## Deploying to Cloudflare Pages
+## Deploying to Cloudflare (Workers & Pages)
 
-This repository is pre-configured for Cloudflare Pages and Wrangler:
-- **Framework preset**: Vite
-- **Build command**: `npm run build`
-- **Build output directory**: `dist`
-- **Node version**: `.nvmrc` and `.node-version` are set to `22`
-- **Lockfile & Peer dependencies**: `package-lock.json` and `.npmrc` (`legacy-peer-deps=true`) ensure smooth npm installations.
-- **SPA routing**: `public/_redirects` routes client requests to `index.html` with HTTP 200.
-- **Wrangler CLI**: `wrangler.json` is configured so `npx wrangler pages deploy` automatically deploys `./dist`.
+This repository supports both Cloudflare Workers (`npx wrangler deploy`) and Cloudflare Pages:
+- **Build command**: `bun run build` (or `npm run build`)
+- **Deploy command**: `npx wrangler deploy`
+- **Output Directory**: `./dist`
+- **Static Assets**: Configured in `wrangler.json` with `"assets": { "directory": "./dist", "not_found_handling": "single-page-application" }`.
+- **Pre-installed Wrangler**: `wrangler` is included in `devDependencies` to avoid network timeouts during deployment.
+- **Dependency installation**: Uses standard `package-lock.json` with Node 22 (`npm ci`) to prevent Bun lockfile version mismatches on Cloudflare's build runners.
+- **Build command in Cloudflare**: You can set **Build command** to `npm run build` or `bun run build`.
 
