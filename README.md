@@ -43,3 +43,17 @@ The application includes dual-mode data persistence:
 
 3. **Anonymous Authentication**:
    In the [Firebase Console](https://console.firebase.google.com/) under **Authentication > Sign-in method**, enable **Anonymous** sign-in.
+
+---
+
+## Deploying to Cloudflare Pages
+
+This repository is pre-configured for Cloudflare Pages and Wrangler:
+- **Framework preset**: Vite
+- **Build command**: `npm run build`
+- **Build output directory**: `dist`
+- **Node version**: `.nvmrc` and `.node-version` are set to `22`
+- **Lockfile & Peer dependencies**: `package-lock.json` and `.npmrc` (`legacy-peer-deps=true`) ensure smooth npm installations.
+- **SPA routing**: `public/_redirects` routes client requests to `index.html` with HTTP 200.
+- **Wrangler CLI**: `wrangler.json` is configured so `npx wrangler pages deploy` automatically deploys `./dist`.
+

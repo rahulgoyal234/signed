@@ -455,7 +455,6 @@ export default function App() {
 
       <main id="top">
         <section className="hero">
-          <p className="kick">Signed &amp; Sealed</p>
           <h1>
             Ask the law.
             <br />
